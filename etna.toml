@@ -1,6 +1,7 @@
 name = "ahash"
 description = "ahash — non-cryptographic AES-NI hash function — ETNA workload."
 language = "rust"
+strategies = ["proptest", "quickcheck", "crabcheck", "hegel"]
 crate = "ahash"
 base_commit = "a9d649d18d6aefeef106a48252dc6708ee7f9e47"
 
