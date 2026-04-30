@@ -1,0 +1,42 @@
+name = "ahash"
+description = "ahash — non-cryptographic AES-NI hash function — ETNA workload."
+language = "rust"
+crate = "ahash"
+base_commit = "a9d649d18d6aefeef106a48252dc6708ee7f9e47"
+
+[[tasks]]
+mutations = ["null_padding_collisions_5c99070_1"]
+
+[tasks.source]
+repo = "https://github.com/tkaitchuck/ahash"
+commits = ["5c99070f97854557ec5e0e6451189798a8ad5853"]
+commit_subjects = ["Prevent null padding collisions."]
+origin = "internal report"
+summary = "`AHasher::write` historically did not mix the input length into its internal state. Because the binary-search load helpers (`read_small`, `large_update`) consume only data bytes, all-zero inputs of different lengths collapsed to identical internal state and hashed to the same value. The fix added a length-mixing step (`add_in_length(&mut self.enc, length as u64)` in the AES variant; `self.buffer = self.buffer.wrapping_add(length).wrapping_mul(MULTIPLE)` in the fallback variant) before the data is consumed, so length differences propagate into the final hash."
+
+[tasks.injection]
+kind = "marauders"
+files = ["src/aes_hash.rs", "src/fallback_hash.rs"]
+locations = [
+  { file = "src/aes_hash.rs", line = 154, symbol = "<AHasher as Hasher>::write" },
+  { file = "src/fallback_hash.rs", line = 173, symbol = "<AHasher as Hasher>::write" },
+]
+
+[tasks.bug]
+short_name = "null_padding_collisions"
+invariant = "For any two distinct lengths `n` and `m`, `RandomState::with_seeds(0,0,0,0)` hashing `[0u8; n]` must produce a different value than hashing `[0u8; m]`. Equivalently: an all-zero input of length `n` is uniquely identified by `n` in the hash output."
+how_triggered = "The buggy `<AHasher as Hasher>::write` removes the length-mixing step (`add_in_length` / the buffer wrapping_add+wrapping_mul). For all-zero inputs of length 0..=8, `read_small` returns `[0, 0]` regardless of length; without the length mix the internal state is identical. The witness `(n=0, m=1)` therefore collides on the buggy code (both hash to `0xc3acadb48856bc1e` with the seed used) but produces distinct hashes on the fixed code."
+
+[[tasks.tasks]]
+property = "NullPaddingDistinct"
+witnesses = [
+  { test_fn = "witness_null_padding_distinct_case_zero_vs_one" },
+  { test_fn = "witness_null_padding_distinct_case_short_within_path" },
+  { test_fn = "witness_null_padding_distinct_case_zero_vs_eight" },
+  { test_fn = "witness_null_padding_distinct_case_two_vs_seven" },
+]
+
+[[dropped]]
+commit = "4edd748"
+subject = "Adopt key mixing from fallback in AES variant"
+reason = "no observable public invariant — XORing the keys with PI hardens against the all-zero-key edge case, but the AES rounds still produce non-zero output, leaving no simple property whose pass/fail flips cleanly between fixed and buggy code on the public RandomState API."

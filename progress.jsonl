@@ -1,0 +1,28 @@
+{"ts": "2026-04-30T07:08:29Z", "stage": "discover", "event": "start"}
+{"ts": "2026-04-30T07:13:43Z", "stage": "discover", "event": "candidate", "hash": "\"5c99070\"", "subject": "\"Prevent null padding collisions\"", "files": "2", "hunks": "2"}
+{"ts": "2026-04-30T07:13:43Z", "stage": "discover", "event": "candidate", "hash": "\"4edd748\"", "subject": "\"Adopt key mixing from fallback in AES variant\"", "files": "1", "hunks": "1"}
+{"ts": "2026-04-30T07:13:43Z", "stage": "discover", "event": "done", "commits_scanned": "519", "fix_commits": "2"}
+{"ts": "2026-04-30T07:13:43Z", "stage": "atomize", "event": "start", "total_candidates": "2"}
+{"ts": "2026-04-30T07:23:16Z", "stage": "atomize", "event": "variant_start", "name": "\"null_padding_collisions_5c99070_1\"", "i": "1", "of": "2"}
+{"ts": "2026-04-30T07:23:16Z", "stage": "atomize", "event": "variant_detected", "name": "\"null_padding_collisions_5c99070_1\"", "i": "1", "of": "2", "injection": "\"marauders\""}
+{"ts": "2026-04-30T07:23:57Z", "stage": "atomize", "event": "variant_committed", "name": "\"null_padding_collisions_5c99070_1\"", "i": "1", "of": "2", "injection": "\"marauders\""}
+{"ts": "2026-04-30T07:23:57Z", "stage": "atomize", "event": "done", "committed": "1", "skipped": "1"}
+{"ts": "2026-04-30T07:23:57Z", "stage": "runner", "event": "start"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "compiled"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "framework_passing", "framework": "\"etna\"", "property": "\"NullPaddingDistinct\""}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "framework_passing", "framework": "\"proptest\"", "property": "\"NullPaddingDistinct\""}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "framework_passing", "framework": "\"quickcheck\"", "property": "\"NullPaddingDistinct\""}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "framework_passing", "framework": "\"crabcheck\"", "property": "\"NullPaddingDistinct\""}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "framework_passing", "framework": "\"hegel\"", "property": "\"NullPaddingDistinct\""}
+{"ts": "2026-04-30T07:23:58Z", "stage": "runner", "event": "done"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "document", "event": "start"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "document", "event": "bugs_written", "variants": "1"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "document", "event": "tasks_written", "tasks": "1"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "document", "event": "done"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "validate", "event": "start"}
+{"ts": "2026-04-30T07:23:58Z", "stage": "validate", "event": "check_passed", "check": "\"A. etna workload check\""}
+{"ts": "2026-04-30T07:27:46Z", "stage": "validate", "event": "check_passed", "check": "\"B1. base builds and tests\""}
+{"ts": "2026-04-30T07:27:46Z", "stage": "validate", "event": "check_passed", "check": "\"B2. per-variant detection\""}
+{"ts": "2026-04-30T07:27:46Z", "stage": "validate", "event": "check_passed", "check": "\"B3. etna binary end-to-end\""}
+{"ts": "2026-04-30T07:27:46Z", "stage": "validate", "event": "check_passed", "check": "\"B4. adapter-body reality check\""}
+{"ts": "2026-04-30T07:27:46Z", "stage": "validate", "event": "all_checks_passed"}

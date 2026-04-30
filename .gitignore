@@ -1,3 +1,7 @@
 .idea/
 Cargo.lock
 target
+.hegel/
+etna.log
+default_*.profraw
+profdata/

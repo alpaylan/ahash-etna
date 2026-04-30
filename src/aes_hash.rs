@@ -151,7 +151,16 @@ impl Hasher for AHasher {
     fn write(&mut self, input: &[u8]) {
         let mut data = input;
         let length = data.len();
+        /*| null_padding_collisions [hash] */
         add_in_length(&mut self.enc, length as u64);
+        /*|| null_padding_collisions_5c99070_1 */
+        /*|
+        // BUG: length is no longer mixed into `enc`. All-zero inputs of
+        // different lengths now collapse to identical internal state, since
+        // `read_small`/`large_update` only consume the data bytes.
+        let _ = length;
+        */
+        /* |*/
 
         //A 'binary search' on sizes reduces the number of comparisons.
         if data.len() <= 8 {

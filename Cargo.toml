@@ -8,11 +8,11 @@ documentation = "https://docs.rs/ahash"
 repository = "https://github.com/tkaitchuck/ahash"
 keywords = ["hash", "hasher", "hashmap", "aes", "no-std"]
 categories = ["algorithms", "data-structures", "no-std"]
-edition = "2018"
+edition = "2021"
 readme = "README.md"
 build = "./build.rs"
 exclude = ["/smhasher", "/benchmark_tools"]
-rust-version = "1.60.0"
+rust-version = "1.81"
 
 [lib]
 name = "ahash"
@@ -85,6 +85,15 @@ cfg-if = "1.0"
 portable-atomic = { version = "1.0.0", optional = true }
 getrandom = { version = "0.3.1", optional = true }
 zerocopy = { version = "0.8.24", default-features = false, features = ["simd"] }
+
+# ETNA benchmark runner framework dependencies. Used by src/bin/etna.rs and
+# the etna module. Placed in main [dependencies] so the bin target links
+# against them; they're only referenced from the workload harness.
+proptest = "1.0"
+quickcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/quickcheck-rs", features = ["etna"] }
+crabcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/crabcheck", features = ["profiling"] }
+rand9 = { package = "rand", version = "0.9", default-features = false, features = ["os_rng", "small_rng", "thread_rng"] }
+hegeltest = "0.3.7"
 
 [target.'cfg(not(all(target_arch = "arm", target_os = "none")))'.dependencies]
 once_cell = { version = "1.18.0", default-features = false, features = ["alloc"] }

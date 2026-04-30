@@ -1,0 +1,12 @@
+languages = ["Rust"]
+ignore = [
+  "benches/**",
+  "smhasher/**",
+  "benchmark_tools/**",
+  "no_std_test/**",
+  "compare/**",
+  "target/**",
+  "patches/**",
+]
+use_gitignore = false
+custom_languages = []

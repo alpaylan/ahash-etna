@@ -170,8 +170,16 @@ impl Hasher for AHasher {
     fn write(&mut self, input: &[u8]) {
         let mut data = input;
         let length = data.len() as u64;
+        /*| null_padding_collisions [hash] */
         //Needs to be an add rather than an xor because otherwise it could be canceled with carefully formed input.
         self.buffer = self.buffer.wrapping_add(length).wrapping_mul(MULTIPLE);
+        /*|| null_padding_collisions_5c99070_1 */
+        /*|
+        // BUG: length is no longer mixed into `buffer`. All-zero inputs of
+        // different lengths now collapse to identical internal state.
+        let _ = length;
+        */
+        /* |*/
         //A 'binary search' on sizes reduces the number of comparisons.
         if data.len() > 8 {
             if data.len() > 16 {

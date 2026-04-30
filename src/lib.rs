@@ -143,6 +143,8 @@ mod operations;
 pub mod random_state;
 mod specialize;
 
+pub mod etna;
+
 pub use crate::random_state::RandomState;
 
 use core::hash::BuildHasher;
