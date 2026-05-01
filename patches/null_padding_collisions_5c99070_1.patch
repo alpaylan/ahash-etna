@@ -1,0 +1,32 @@
+# marauders: name=null_padding_collisions tags=[hash]
+diff --git a/src/aes_hash.rs b/src/aes_hash.rs
+--- a/src/aes_hash.rs
++++ b/src/aes_hash.rs
+@@ -151,7 +151,10 @@
+     fn write(&mut self, input: &[u8]) {
+         let mut data = input;
+         let length = data.len();
+-        add_in_length(&mut self.enc, length as u64);
++        // BUG: length is no longer mixed into `enc`. All-zero inputs of
++        // different lengths now collapse to identical internal state, since
++        // `read_small`/`large_update` only consume the data bytes.
++        let _ = length;
+ 
+         //A 'binary search' on sizes reduces the number of comparisons.
+         if data.len() <= 8 {
+
+diff --git a/src/fallback_hash.rs b/src/fallback_hash.rs
+--- a/src/fallback_hash.rs
++++ b/src/fallback_hash.rs
+@@ -170,8 +170,9 @@
+     fn write(&mut self, input: &[u8]) {
+         let mut data = input;
+         let length = data.len() as u64;
+-        //Needs to be an add rather than an xor because otherwise it could be canceled with carefully formed input.
+-        self.buffer = self.buffer.wrapping_add(length).wrapping_mul(MULTIPLE);
++        // BUG: length is no longer mixed into `buffer`. All-zero inputs of
++        // different lengths now collapse to identical internal state.
++        let _ = length;
+         //A 'binary search' on sizes reduces the number of comparisons.
+         if data.len() > 8 {
+             if data.len() > 16 {

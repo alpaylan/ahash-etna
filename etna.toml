@@ -16,7 +16,8 @@ origin = "internal report"
 summary = "`AHasher::write` historically did not mix the input length into its internal state. Because the binary-search load helpers (`read_small`, `large_update`) consume only data bytes, all-zero inputs of different lengths collapsed to identical internal state and hashed to the same value. The fix added a length-mixing step (`add_in_length(&mut self.enc, length as u64)` in the AES variant; `self.buffer = self.buffer.wrapping_add(length).wrapping_mul(MULTIPLE)` in the fallback variant) before the data is consumed, so length differences propagate into the final hash."
 
 [tasks.injection]
-kind = "marauders"
+kind = "patch"
+patch = "patches/null_padding_collisions_5c99070_1.patch"
 files = ["src/aes_hash.rs", "src/fallback_hash.rs"]
 locations = [
   { file = "src/aes_hash.rs", line = 154, symbol = "<AHasher as Hasher>::write" },
