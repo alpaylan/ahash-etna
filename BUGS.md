@@ -8,7 +8,7 @@ Total mutations: 1
 
 | # | Variant | Name | Location | Injection | Fix Commit |
 |---|---------|------|----------|-----------|------------|
-| 1 | `null_padding_collisions_5c99070_1` | `null_padding_collisions` | `src/aes_hash.rs:154` | `marauders` | `5c99070f97854557ec5e0e6451189798a8ad5853` |
+| 1 | `null_padding_collisions_5c99070_1` | `null_padding_collisions` | `src/aes_hash.rs:154` | `patch` | `5c99070f97854557ec5e0e6451189798a8ad5853` |
 
 ## Property Mapping
 
